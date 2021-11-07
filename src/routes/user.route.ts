@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { StatusCodes } from "http-status-codes";
+import DatabaseError from "../models/errors/DatabaseError";
 import userRepository from "../repositories/user.repository";
 
 const usersRoute = Router();
@@ -15,9 +16,13 @@ usersRoute.get(
 usersRoute.get(
   "/users/:uuid",
   async (req: Request<{ uuid: string }>, res: Response, next: NextFunction) => {
-    const uuid = req.params.uuid;
-    const user = await userRepository.findById(uuid);
-    res.status(StatusCodes.OK).send(user);
+    try {
+      const uuid = req.params.uuid;
+      const user = await userRepository.findById(uuid);
+      res.status(StatusCodes.OK).send(user);
+    } catch (err) {
+      next(err);
+    }
   }
 );
 
