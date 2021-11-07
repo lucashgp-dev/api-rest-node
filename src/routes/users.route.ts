@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { StatusCodes } from "http-status-codes";
-import DatabaseError from "../models/errors/DatabaseError";
+import DatabaseError from "../models/errors/database.error.model";
 import userRepository from "../repositories/user.repository";
 
 const usersRoute = Router();
